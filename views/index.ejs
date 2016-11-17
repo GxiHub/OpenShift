@@ -6,25 +6,143 @@
   <script src="main.js"></script>
 </head>
 <body>
+	<table border='1'>
+	<tbody>
+		<tr>
+			<td> 唯一號  </td><td> 進貨單號  </td><td> 商品名稱  </td><td> 數量  </td><td> 單價  </td><td> 金額  </td><td> 入庫時間  </td>
+		</tr>
 
-	<ul class="quote">
 	  <% for(var i=0; i<quotes.length; i++) {%>
-	    <li class="quote">
-	      <span><%= quotes[i].name %></span>
-	      <span><%= quotes[i].quote %></span>
-	      <span><%= quotes[i].time %></span>
-	    </li>
+	      <tr>
+	      	  <td><%= quotes[i].timeID %></td>
+		      <td><%= quotes[i].uniID %></td>
+		      <td><%= quotes[i].name %></td>
+		      <td><%= quotes[i].weight %></td>
+		      <td><%= quotes[i].price %></td>
+		      <td><%= quotes[i].total %></td>
+		      <td><%= quotes[i].time %></td>
+		      <td>
+		      <form action="/delete/" method="POST">
+		      		<input type="hidden" placeholder="price" name="timeID" value=<%= quotes[i].timeID %>>
+		      		<button type="submit">刪除</button>
+			  </form></td>
+	      </tr>
 	  <% } %>
-	</ul>
+	</tbody>
+	</table>
 
-<!-- 	<form action="/quotes" method="POST">
-	<input type="text" placeholder="name" name="name">
-	<input type="text" placeholder="quote" name="quote">
-	<button type="submit">Submit</button>
+		<% 
+			var Beef_item1_weight = 0
+			var Beef_item1_price = 0
+			var Beef_item2_weight = 0
+			var Beef_item2_price = 0
+			var Beef_item3_weight = 0
+			var Beef_item3_price = 0
+			var Beef_item4_weight = 0
+			var Beef_item4_price = 0
+			var Beef_item5_weight = 0
+			var Beef_item5_price = 0
+			var Beef_item6_weight = 0
+			var Beef_item6_price = 0
+			var Beef_item7_weight = 0
+			var Beef_item7_price = 0
+			var Beef_item8_weight = 0
+			var Beef_item8_price = 0
+
+			<!-- var PorkTotal = 0 -->
+		    for(var i=0; i<quotes.length; i++) 
+			{
+				if(quotes[i].name == 'Prime翼板')
+				{
+					Beef_item1_weight = Beef_item1_weight + parseInt(quotes[i].weight, 10)
+					Beef_item1_price = Beef_item1_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+				else if(quotes[i].name == '去骨牛小排')
+				{
+					Beef_item2_weight = Beef_item2_weight + parseInt(quotes[i].weight, 10)
+					Beef_item2_price = Beef_item2_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+				else if(quotes[i].name == 'Choice翼板')
+				{
+					Beef_item3_weight = Beef_item3_weight + parseInt(quotes[i].weight, 10)
+					Beef_item3_price = Beef_item3_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+				else if(quotes[i].name == '肋眼')
+				{
+					Beef_item4_weight = Beef_item4_weight + parseInt(quotes[i].weight, 10)
+					Beef_item4_price = Beef_item4_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+				else if(quotes[i].name == '背肩')
+				{
+					Beef_item5_weight = Beef_item5_weight + parseInt(quotes[i].weight, 10)
+					Beef_item5_price = Beef_item5_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+				else if(quotes[i].name == '板腱')
+				{
+					Beef_item6_weight = Beef_item6_weight + parseInt(quotes[i].weight, 10)
+					Beef_item6_price = Beef_item6_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+				else if(quotes[i].name == '牛培根')
+				{
+					Beef_item7_weight = Beef_item7_weight + parseInt(quotes[i].weight, 10)
+					Beef_item7_price = Beef_item7_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+				else if(quotes[i].name == '美國和牛')
+				{
+					Beef_item8_weight = Beef_item8_weight + parseInt(quotes[i].weight, 10)
+					Beef_item8_price = Beef_item8_price + parseInt(quotes[i].weight*quotes[i].price, 10)
+				}
+	 		}
+		%>
+	<br>
+	<table border='1'>
+	<tbody>
+
+		<tr>
+			<td> 商品名稱  </td><td> Prime翼板  </td><td> 去骨牛小排 </td><td> Choice翼板  </td>
+			<td> 肋眼  </td><td> 背肩 </td><td> 板腱  </td><td> 牛培根  </td><td> 美國和牛 </td>
+		</tr>
+		<tr>
+		<td> 總重量  </td>
+		<td><%= Beef_item1_weight %></td><td><%= Beef_item2_weight %></td>
+		<td><%= Beef_item3_weight %></td><td><%= Beef_item4_weight %></td>
+		<td><%= Beef_item5_weight %></td><td><%= Beef_item6_weight %></td>
+		<td><%= Beef_item7_weight %></td><td><%= Beef_item8_weight %></td>
+		</tr>
+		<td> 總金額  </td>
+		<td><%=Math.round(Beef_item1_price) %></td><td><%=Math.round(Beef_item2_price)%></td>
+		<td><%=Math.round(Beef_item3_price) %></td><td><%=Math.round(Beef_item4_price)%></td>
+		<td><%=Math.round(Beef_item5_price) %></td><td><%=Math.round(Beef_item6_price)%></td>
+		<td><%=Math.round(Beef_item7_price) %></td><td><%=Math.round(Beef_item8_price) %></td>
+		</tr>
+	</tbody>
+	</table>
+
+	<br>
+	<form action="/create/Beef/" method="POST">
+		<select name="beefitem">
+		　<option value="Prime翼板">Prime翼板</option>
+		　<option value="去骨牛小排">去骨牛小排</option>
+		　<option value="Choice翼板">Choice翼板</option>
+		　<option value="肋眼">肋眼</option>
+		  <option value="背肩">背肩</option>
+		  <option value="板腱">板腱</option>
+		  <option value="牛培根">牛培根</option>
+		  <option value="美國和牛">美國和牛</option>
+		</select>
+		<b> 編號 </b><input type="text" placeholder="number" name="number">
+		<b> 重量 </b><input type="text" placeholder="weight" name="weight">
+		<b> 單價 </b><input type="text" placeholder="price" name="price">
+		<button type="submit">入庫</button>
 	</form>
-	
+<!-- 	<form action="/create/Pork/" method="POST">
+		<b> 豬肉進貨克數 </b><input type="text" placeholder="status" name="status">
+		<button type="submit">Submit</button>
+	</form> -->
+	<!-- 	
 	<div><button id="update" onclick="updateData()">update</button></div>
-	<div><button id="delete" onclick="deleteData()">delete</button></div> -->
+	<div><button id="delete" onclick="deleteData()">delete</button></div> 
+	-->
 
 </body>
 </html>

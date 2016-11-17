@@ -4,6 +4,7 @@ bodyParser = require('body-parser');
 MongoClient = require('mongodb').MongoClient;
 path = require('path');
 moment = require('moment');
+database = require('./db');
 
 app = express();
 
@@ -23,14 +24,23 @@ MongoClient.connect('mongodb://gxi0306:mini0306@ds017248.mlab.com:17248/star-war
 }) 
 
 // Create (POST) - Make something
-app.get('/create/',function(req,res){
-  var ForYear = moment().format('YYYY');
-	//db.collection('quotes').save(req.body,function(err,result){
-  db.collection('quotes').save({name:'jeff',quote:'1234567',time:ForYear},function(err,result){
-		if(err)return console.log(err);
-		console.log('saved to database ', ForYear);
+app.post('/create/Beef/',function(req,res){
+  database.timeset(req,function(error,results){
+      if(error)return console.log (error);
+      console.log('saved to database ',JSON.stringify(results[0]));
+  });
+  res.redirect('/');
+});
+
+// Create (POST) - Make something
+app.post('/create/Pork/',function(req,res){
+  var ForYear = moment().format('MMMM Do YYYY, h:mm:ss a');
+  //db.collection('quotes').save(req.body,function(err,result){
+  db.collection('quotes').save({uniID:Date.now(),name:'豬肉',status:req.body.status,time:ForYear},function(err,result){
+    if(err)return console.log(err);
+    console.log('saved to database ', ForYear);
     res.redirect('/');
-	});
+  });
 });
 
 // Read (GET) - Get something
@@ -42,20 +52,32 @@ app.get('/',function(req,res){
 
 
 // Delete (DELETE) - Remove something
-app.get('/delete', (req, res) => {
+app.get('/delete/Beef/', (req, res) => {
   console.log('delete once');
-  db.collection('quotes').findOneAndDelete({name:'jeff'},
+  db.collection('quotes').findOneAndDelete({name:'牛肉'},
   (err, result) => {
     if (err) return res.send(500, err);
      res.redirect('/');
-  })
-})
+  });
+});
 
+// Delete (DELETE) - Remove something
+app.get('/delete/Pork/', (req, res) => {
+  console.log('delete once');
+  db.collection('quotes').findOneAndDelete({name:'豬肉'},
+  (err, result) => {
+    if (err) return res.send(500, err);
+     res.redirect('/');
+  });
+});
 
-// var httpServer = http.createServer(function (req, res) {
-//    res.writeHead(200, {'Content-Type': 'text/html'});
-//    res.end('<h1>Hello World Doctor Chen</h1>\n');
-// });
+// Delete (DELETE) - Remove something
+app.post('/delete/', (req, res) => {
+  console.log('delete once  = ',req.body.timeID);
+  db.collection('quotes').findOneAndDelete({timeID:parseInt(req.body.timeID,10)},
+  (err, result) => {
+    if (err) return res.send(500, err);
+     res.redirect('/');
+  });
+});
 
-// httpServer.listen(8080); 
-// console.log('Server running at http://127.0.0.1:8080/');
