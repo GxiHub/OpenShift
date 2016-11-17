@@ -9,7 +9,7 @@ MongoClient.connect('mongodb://gxi0306:mini0306@ds017248.mlab.com:17248/star-war
 
 exports.timeset = function(req,callback){
 	var in_stock_time = moment().subtract(10,'day').calendar();
-	var totalprice = Math.ceil(req.body.weight*req.body.price,10)
+	var totalprice = Math.round(req.body.weight*req.body.price,10)
 	var docs = [];
 	docs.push(in_stock_time);
 	docs.push(totalprice);
